@@ -13,6 +13,7 @@ See the full [Architecture Documentation](docs/ARCHITECTURE.md) for subsystems, 
 - [Structure](#structure)
 - [Env Configuration](#env-configuration)
 - [Usage](#usage)
+- [Web Dashboard](#web-dashboard)
 - [Tool Calling](#tool-calling)
 - [Deployment to EigenCloud](#deployment-to-eigencloud)
 
@@ -22,6 +23,7 @@ See the full [Architecture Documentation](docs/ARCHITECTURE.md) for subsystems, 
 - `src/indicators/taapi_client.py`: Fetches indicators from TAAPI.
 - `src/trading/hyperliquid_api.py`: Executes trades on Hyperliquid.
 - `src/config_loader.py`: Centralized config loaded from `.env`.
+- `frontend/`: React web dashboard for monitoring the trading agent.
 
 ## Env Configuration
 Populate `.env` (use `.env.example` as reference):
@@ -55,6 +57,40 @@ docker build --platform linux/amd64 -t trading-agent .
 docker run --rm -p 3000:3000 --env-file .env trading-agent
 # Now: curl http://localhost:3000/diary
 ```
+
+## Web Dashboard
+
+The project includes a modern React-based web dashboard for monitoring your trading agent in real-time.
+
+### Features
+- **Dashboard**: Real-time overview with trading statistics and activity charts
+- **Trading Diary**: Detailed view of all trading decisions, entries, and exits
+- **Logs Viewer**: Monitor system logs and LLM requests
+- **Auto-refresh**: Automatic updates every 5-15 seconds
+- **Download**: Export diary and logs for offline analysis
+
+### Running the Dashboard
+
+1. Install dependencies:
+```bash
+cd frontend
+npm install
+```
+
+2. Start the backend first:
+```bash
+poetry run python src/main.py --assets BTC ETH --interval 1h
+```
+
+3. In a new terminal, start the frontend:
+```bash
+cd frontend
+npm run dev
+```
+
+4. Open your browser to `http://localhost:5173`
+
+For production builds and more details, see [frontend/README.md](frontend/README.md).
 
 ## Tool Calling
 The agent can dynamically fetch any TAAPI indicator (e.g., EMA, RSI) via tool calls. See [TAAPI Indicators](https://taapi.io/indicators/) and [EMA Example](https://taapi.io/indicators/exponential-moving-average/) for details.

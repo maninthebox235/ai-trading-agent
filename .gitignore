@@ -29,3 +29,9 @@ llm_requests.log
 trading_history.log
 *.log
 diary.jsonl
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.production
